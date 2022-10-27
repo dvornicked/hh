@@ -10,3 +10,11 @@ class City(models.Model):
 
     def __str__(self):
         return f'{self.name}'
+
+
+class Language(models.Model):
+    name = models.CharField(max_length=32, unique=True)
+    slug = models.CharField(max_length=32, blank=True, unique=True)
+
+    def __str__(self):
+        return f'{self.name}'
