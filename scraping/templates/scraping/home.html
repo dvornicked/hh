@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+{% block content %}
+    <h1>Vacancies</h1>
+    {% for obj in object_list %}
+        <div class="card border-primary my-3">
+            <h4 class="card-header"><a href={{ obj.url }}>{{ obj.title }}</a></h4>
+            <div class="card-body">
+                <p class="text-end">{{ obj.city.name }} | {{ obj.language.name }} | <small>{{ obj.timestamp|date:'d.m.y' }} {{ obj.timestamp|time:'H:i' }}</small></p>
+                <p class="card-text">{{ obj.description }}</p>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
