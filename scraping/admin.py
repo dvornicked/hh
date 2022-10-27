@@ -4,9 +4,9 @@ from .models import City, Language
 
 @admin.register(City)
 class CityAdmin(admin.ModelAdmin):
-    pass
+    exclude = ['slug']
 
 
 @admin.register(Language)
 class LanguageAdmin(admin.ModelAdmin):
-    pass
+    exclude = ['slug']
