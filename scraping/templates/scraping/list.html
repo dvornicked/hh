@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+{% block content %}
+    <form method="get" action="" class="my-3">
+        <div class="row">
+            {% for field in form %}
+                <div class="col-md mt-1">
+                    {{ field.label_tag }}
+                    {{ field }}
+                </div>
+            {% endfor %}
+            <div class="col-md-2 align-self-end mt-3">
+                <button class="btn btn-primary w-100" type="submit">Search</button>
+            </div>
+        </div>
+    </form>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
+        {% for obj in object_list %}
+            <div class="col d-flex align-items-stretch">
+                <div class="card border-primary my-3 w-100">
+                    <h4 class="card-header"><a href={{ obj.url }}>{{ obj.title }}</a></h4>
+                    <div class="card-body">
+                        <p class="text-end">{{ obj.city.name }} | {{ obj.language.name }} |
+                            <small>{{ obj.timestamp|date:'d.m.y' }} {{ obj.timestamp|time:'H:i' }}</small></p>
+                        <p class="card-text">{{ obj.description }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% if object_list %}
+        <div class="d-flex">
+            <ul class="pagination mx-auto">
+                <li class="page-item {% if not object_list.has_previous %}disabled{% endif %}">
+                    <a class="page-link" href="?city={{ city }}&language={{ language }}&page=
+                            {% if object_list.has_previous %}{{ object_list.previous_page_number }}{% else %}1{% endif %}">&laquo;</a>
+                </li>
+                {% for page in object_list.paginator.page_range %}
+                    <li class="page-item {% if page == object_list.number %}active{% endif %}">
+                        <a class="page-link"
+                           href="?city={{ city }}&language={{ language }}&page={{ page }}">{{ page }}</a>
+                    </li>
+                {% endfor %}
+                <li class="page-item {% if not object_list.has_next %}disabled{% endif %}">
+                    <a class="page-link" href="?city={{ city }}&language={{ language }}&page=
+                            {% if object_list.has_next %}{{ object_list.next_page_number }}{% else %}{{ object_list.paginator.num_pages }}{% endif %}">&raquo;</a>
+            </ul>
+        </div>
+    {% endif %}
+{% endblock %}

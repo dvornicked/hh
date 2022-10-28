@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render
 
 from .forms import SearchForm
@@ -6,9 +7,13 @@ from .models import Vacancy
 
 def home_view(request):
     form = SearchForm()
+    return render(request, 'scraping/home.html', {'form': form})
+
+
+def list_view(request):
     city = request.GET.get('city')
     language = request.GET.get('language')
-    qs = []
+    form = SearchForm(initial={'city': city, 'language': language})
     if city or language:
         _filter = {}
         if city:
@@ -17,5 +22,15 @@ def home_view(request):
             _filter['language__slug__contains'] = language
 
         qs = Vacancy.objects.filter(**_filter)
-
-    return render(request, 'scraping/home.html', {'object_list': qs, 'form': form})
+    else:
+        qs = Vacancy.objects.all()
+    paginator = Paginator(qs, 12)
+    page_number = request.GET.get('page')
+    page = paginator.get_page(page_number)
+    context = {
+        'form': form,
+        'object_list': page,
+        'city': city,
+        'language': language,
+    }
+    return render(request, 'scraping/list.html', context)
