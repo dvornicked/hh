@@ -18,7 +18,7 @@
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
         {% for obj in object_list %}
             <div class="col d-flex align-items-stretch">
-                <div class="card border-primary my-3">
+                <div class="card border-primary my-3 w-100">
                     <h4 class="card-header"><a href={{ obj.url }}>{{ obj.title }}</a></h4>
                     <div class="card-body">
                         <p class="text-end">{{ obj.city.name }} | {{ obj.language.name }} |
