@@ -8,6 +8,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'hh.settings')
 django.setup()
 
 from scraping.models import Vacancy, City, Language
+from account.models import Profile
 
 headers = {
     'User-Agent': '"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
@@ -34,13 +35,16 @@ def hh(area, lang):
     return results
 
 
-cities = City.objects.all()
-languages = Language.objects.all()
-for city in cities:
-    for language in languages:
-        results = hh(city.hh_id, language.slug)
-        for result in results:
-            try:
-                Vacancy.objects.create(**result, city=city, language=language)
-            except Exception as e:
-                print(e, city, language)
+def get_notify_list():
+    profiles = Profile.objects.filter(notify=True)
+    return set(
+        [(profile.city, profile.language) for profile in profiles if profile.city and profile.language])
+
+
+for city, lang in get_notify_list():
+    results = hh(city, lang)
+    for result in results:
+        try:
+            Vacancy.objects.create(**result, city=city, language=lang)
+        except Exception as e:
+            print(e, city, lang)
