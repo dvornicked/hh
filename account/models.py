@@ -7,8 +7,8 @@ from scraping.models import City, Language
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    city = models.OneToOneField(City, blank=True, null=True, on_delete=models.SET_NULL)
-    language = models.OneToOneField(Language, blank=True, null=True, on_delete=models.SET_NULL)
+    city = models.ForeignKey(City, blank=True, null=True, on_delete=models.SET_NULL)
+    language = models.ForeignKey(Language, blank=True, null=True, on_delete=models.SET_NULL)
     notify = models.BooleanField(default=False)
 
     def __str__(self):
