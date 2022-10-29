@@ -45,7 +45,7 @@
                 <li class="page-item"><a class="page-link" href="?city={{ city }}&language={{ language }}&page=1">1</a>
                 </li>
                 <li class="page-item"><a class="page-link"
-                                         href="??city={{ city }}&language={{ language }}&page={{ object_list.number|add:'-3' }}">&hellip;</a>
+                                         href="?city={{ city }}&language={{ language }}&page={{ object_list.number|add:'-3' }}">&hellip;</a>
                 </li>
             {% endif %}
             {% for page in object_list.paginator.page_range %}
@@ -61,7 +61,7 @@
             {% endfor %}
             {% if object_list.paginator.num_pages > object_list.number|add:'2' %}
                 <li class="page-item"><a class="page-link"
-                                         href="??city={{ city }}&language={{ language }}&page={{ object_list.number|add:'3' }}">&hellip;</a>
+                                         href="?city={{ city }}&language={{ language }}&page={{ object_list.number|add:'3' }}">&hellip;</a>
                 </li>
                 <li class="page-item"><a class="page-link"
                                          href="?city={{ city }}&language={{ language }}&page={{ object_list.paginator.num_pages }}">{{ object_list.paginator.num_pages }}</a>
