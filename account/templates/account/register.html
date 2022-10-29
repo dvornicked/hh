@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Login{% endblock %}
+{% block title %}Register{% endblock %}
 
 {% block content %}
     <div class="container">
@@ -14,10 +14,10 @@
                 {% endfor %}
                 <div class="row">
                     <div class="col-sm mt-1">
-                        <button type="submit" class="btn btn-primary">Login</button>
+                        <button type="submit" class="btn btn-primary">Register</button>
                     </div>
                     <div class="col-sm mt-1">
-                        <a class="btn btn-link" href="{% url 'account:register' %}">Don't have an account? Register</a>
+                        <a class="btn btn-link" href="{% url 'account:login' %}">Already have an account?</a>
                     </div>
                 </div>
             </form>
