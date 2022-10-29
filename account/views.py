@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 
@@ -13,12 +14,15 @@ def login_view(request):
         password = data.get('password')
         user = authenticate(username=username, password=password)
         login(request, user)
+        messages.success(request, 'You are logged in successfully')
         return redirect('home')
+    messages.error(request, 'Invalid username or password')
     return render(request, 'account/login.html', {'form': form})
 
 
 def logout_view(request):
     logout(request)
+    messages.success(request, 'You are logged out successfully')
     return redirect('home')
 
 
@@ -29,9 +33,11 @@ def register_view(request):
         password = form.cleaned_data.get('password')
         user.set_password(password)
         user.save()
+        messages.success(request, 'Account created successfully')
         new_user = authenticate(username=user.username, password=password)
         login(request, new_user)
         return redirect('home')
+    messages.error(request, 'Invalid username or password')
     return render(request, 'account/register.html', {'form': form})
 
 
@@ -47,9 +53,11 @@ def profile_view(request):
                 profile.language = cd['language']
                 profile.notify = cd['notify']
                 profile.save()
+                messages.success(request, 'Profile updated successfully')
                 return redirect('account:profile')
         else:
             form = ProfileForm(initial={'city': profile.city, 'language': profile.language, 'notify': profile.notify})
         return render(request, 'account/profile.html', {'form': form})
     else:
+        messages.error(request, 'You must be logged in to access this page')
         return redirect('account:login')

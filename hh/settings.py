@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 from decouple import config
+from django.contrib import messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -71,8 +72,16 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'hh.wsgi.application'
 
+MESSAGE_TAGS = {
+    messages.DEBUG: 'bg-info',
+    messages.INFO: 'bg-info',
+    messages.SUCCESS: 'bg-success',
+    messages.WARNING: 'bg-warning',
+    messages.ERROR: 'bg-danger',
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
