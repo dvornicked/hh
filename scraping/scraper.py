@@ -39,9 +39,10 @@ def hh(city, language):
     return results
 
 
-def get_notify_list():
-    profiles = Profile.objects.filter(notify=True)
-    return set([(profile.city, profile.language) for profile in profiles if profile.city and profile.language])
+def get_list():
+    cities = City.objects.all()
+    languages = Language.objects.all()
+    return [(city, language) for city in cities for language in languages]
 
 
 async def main(value):
@@ -49,10 +50,10 @@ async def main(value):
     vacancies.extend(results)
 
 
-notify_list = get_notify_list()
-if notify_list:
+parse_list = get_list()
+if parse_list:
     loop = asyncio.get_event_loop()
-    tasks = asyncio.wait([loop.create_task(main(value)) for value in get_notify_list()])
+    tasks = asyncio.wait([loop.create_task(main(value)) for value in parse_list()])
     loop.run_until_complete(tasks)
     loop.close()
     for vacancy in vacancies:
