@@ -30,7 +30,7 @@ def list_view(request):
     context = {
         'form': form,
         'object_list': page,
-        'city': city,
-        'language': language,
+        'city': city or '',
+        'language': language or '',
     }
     return render(request, 'scraping/list.html', context)
