@@ -21,9 +21,9 @@ def list_view(request):
         if language:
             _filter['language__slug__contains'] = language
 
-        qs = Vacancy.objects.filter(**_filter)
+        qs = Vacancy.objects.filter(**_filter).order_by('-timestamp')
     else:
-        qs = Vacancy.objects.all()
+        qs = Vacancy.objects.all().order_by('-timestamp')
     paginator = Paginator(qs, 12)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
