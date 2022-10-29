@@ -1,0 +1,22 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: docker build . -t hh
+      - name: Login to ghcr.io
+        run: docker login ghcr.io -u dvornicked -p ${{ secrets.DOCKER_TOKEN }}
+      - name: Tag the Docker image
+        run: docker tag hh:latest ghcr.io/dvornicked/hh
+      - name: Push the Docker image
+        run: docker push ghcr.io/dvornicked/hh
