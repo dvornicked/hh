@@ -13,10 +13,12 @@ def login_view(request):
         username = data.get('username')
         password = data.get('password')
         user = authenticate(username=username, password=password)
-        login(request, user)
-        messages.success(request, 'You are logged in successfully')
-        return redirect('home')
-    messages.error(request, 'Invalid username or password')
+        if user is not None:
+            login(request, user)
+            messages.success(request, 'You are logged in successfully')
+            return redirect('home')
+        else:
+            messages.error(request, 'Invalid username or password')
     return render(request, 'account/login.html', {'form': form})
 
 
@@ -37,7 +39,6 @@ def register_view(request):
         new_user = authenticate(username=user.username, password=password)
         login(request, new_user)
         return redirect('home')
-    messages.error(request, 'Invalid username or password')
     return render(request, 'account/register.html', {'form': form})
 
 
