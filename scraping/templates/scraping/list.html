@@ -30,22 +30,53 @@
         {% endfor %}
     </div>
     {% if object_list %}
-        <div class="d-flex">
-            <ul class="pagination mx-auto">
-                <li class="page-item {% if not object_list.has_previous %}disabled{% endif %}">
-                    <a class="page-link" href="?city={{ city }}&language={{ language }}&page=
-                            {% if object_list.has_previous %}{{ object_list.previous_page_number }}{% else %}1{% endif %}">&laquo;</a>
+        <ul class="pagination">
+            {% if object_list.has_previous %}
+                <li class="page-item">
+                    <a class="page-link"
+                       href="?city={{ city }}&language={{ language }}&page={{ object_list.previous_page_number }}">&laquo;</a>
                 </li>
-                {% for page in object_list.paginator.page_range %}
-                    <li class="page-item {% if page == object_list.number %}active{% endif %}">
-                        <a class="page-link"
-                           href="?city={{ city }}&language={{ language }}&page={{ page }}">{{ page }}</a>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">&laquo;</span>
+                </li>
+            {% endif %}
+            {% if object_list.number|add:'-2' > 1 %}
+                <li class="page-item"><a class="page-link" href="?city={{ city }}&language={{ language }}&page=1">1</a>
+                </li>
+                <li class="page-item"><a class="page-link"
+                                         href="??city={{ city }}&language={{ language }}&page={{ object_list.number|add:'-3' }}">&hellip;</a>
+                </li>
+            {% endif %}
+            {% for page in object_list.paginator.page_range %}
+                {% if object_list.number == page %}
+                    <li class="page-item active"><a class="page-link"
+                                                    href="?city={{ city }}&language={{ language }}&page={{ page }}">{{ page }}</a>
                     </li>
-                {% endfor %}
-                <li class="page-item {% if not object_list.has_next %}disabled{% endif %}">
-                    <a class="page-link" href="?city={{ city }}&language={{ language }}&page=
-                            {% if object_list.has_next %}{{ object_list.next_page_number }}{% else %}{{ object_list.paginator.num_pages }}{% endif %}">&raquo;</a>
-            </ul>
-        </div>
+                {% elif page > object_list.number|add:'-3' and page < object_list.number|add:'3' %}
+                    <li class="page-item"><a class="page-link"
+                                             href="?city={{ city }}&language={{ language }}&page={{ page }}">{{ page }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            {% if object_list.paginator.num_pages > object_list.number|add:'2' %}
+                <li class="page-item"><a class="page-link"
+                                         href="??city={{ city }}&language={{ language }}&page={{ object_list.number|add:'3' }}">&hellip;</a>
+                </li>
+                <li class="page-item"><a class="page-link"
+                                         href="?city={{ city }}&language={{ language }}&page={{ object_list.paginator.num_pages }}">{{ object_list.paginator.num_pages }}</a>
+                </li>
+            {% endif %}
+            {% if object_list.has_next %}
+                <li class="page-item">
+                    <a class="page-link"
+                       href="?city={{ city }}&language={{ language }}&page={{ object_list.next_page_number }}">&raquo;</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link">&raquo;</a>
+                </li>
+            {% endif %}
+        </ul>
     {% endif %}
 {% endblock %}
