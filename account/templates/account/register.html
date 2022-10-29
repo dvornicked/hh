@@ -2,25 +2,23 @@
 {% block title %}Register{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="row justify-content-center">
-            <form class="col-md-4" method="post">
-                {% csrf_token %}
-                {% for field in form %}
-                    <div class="col-md mt-1">
-                        {{ field.label_tag }}
-                        {{ field }}
-                    </div>
-                {% endfor %}
-                <div class="row">
-                    <div class="col-sm mt-1">
-                        <button type="submit" class="btn btn-primary">Register</button>
-                    </div>
-                    <div class="col-sm mt-1">
-                        <a class="btn btn-link" href="{% url 'account:login' %}">Already have an account?</a>
-                    </div>
+    <div class="row justify-content-center">
+        <form class="col-md-4" method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="col-md mt-1">
+                    {{ field.label_tag }}
+                    {{ field }}
                 </div>
-            </form>
-        </div>
+            {% endfor %}
+            <div class="row">
+                <div class="col-sm mt-1">
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </div>
+                <div class="col-sm mt-1">
+                    <a class="btn btn-link" href="{% url 'account:login' %}">Already have an account?</a>
+                </div>
+            </div>
+        </form>
     </div>
 {% endblock %}

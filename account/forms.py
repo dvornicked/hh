@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import User
 
+from scraping.models import City, Language
+
 
 class LoginForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -41,4 +43,13 @@ class RegisterForm(forms.ModelForm):
         return cd['password2']
 
 
+class ProfileForm(forms.ModelForm):
+    city = forms.ModelChoiceField(queryset=City.objects.all(), to_field_name='slug', required=True,
+                                  widget=forms.Select(attrs={'class': 'form-control'}))
+    language = forms.ModelChoiceField(queryset=Language.objects.all(), to_field_name='slug', required=True,
+                                      widget=forms.Select(attrs={'class': 'form-control'}))
+    notify = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
 
+    class Meta:
+        model = User
+        fields = ['city', 'language', 'notify']
