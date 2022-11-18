@@ -1,9 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
+from rest_framework import viewsets
+from rest_framework.permissions import IsAdminUser
 
 from account.forms import LoginForm, RegisterForm, ProfileForm
 from account.models import Profile, Subscription
+from account.serializers import SubscriptionSerializer
 
 
 def login_view(request):
@@ -64,3 +67,9 @@ def profile_view(request):
     else:
         messages.error(request, 'You must be logged in to access this page')
         return redirect('account:login')
+
+
+class SubscriptionViewSet(viewsets.ModelViewSet):
+    serializer_class = SubscriptionSerializer
+    queryset = Subscription.objects.all()
+    permission_classes = [IsAdminUser]
