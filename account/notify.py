@@ -11,9 +11,12 @@ from account.models import Profile
 
 
 def run():
-    qs = Profile.objects.filter(notify=True).select_related('user').values('user__email', 'city', 'language')
+    qs = Profile.objects.filter(notify=True).select_related('subscription').values('user__email',
+                                                                                   'subscription__languages',
+                                                                                   'subscription__city')
     users_dct = {}
-    for user in qs: users_dct.setdefault((user['city'], user['language']), []).append(user['user__email'])
+    for user in qs: users_dct.setdefault((user['subscription__city'], user['subscription__languages']), []).append(
+        user['user__email'])
     params = {'city_id__in': [key[0] for key in users_dct.keys()],
               'language_id__in': [key[1] for key in users_dct.keys()]}
     qs = Vacancy.objects.filter(**params).values().order_by('timestamp')

@@ -46,10 +46,10 @@ class RegisterForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     city = forms.ModelChoiceField(queryset=City.objects.all(), to_field_name='slug', required=True,
                                   widget=forms.Select(attrs={'class': 'form-control'}))
-    language = forms.ModelChoiceField(queryset=Language.objects.all(), to_field_name='slug', required=True,
-                                      widget=forms.Select(attrs={'class': 'form-control'}))
+    languages = forms.ModelMultipleChoiceField(queryset=Language.objects.all(), to_field_name='slug', required=True,
+                                               widget=forms.SelectMultiple(attrs={'class': 'form-control'}))
     notify = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
 
     class Meta:
         model = User
-        fields = ['city', 'language', 'notify']
+        fields = ['city', 'languages', 'notify']
