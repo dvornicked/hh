@@ -1,8 +1,10 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render
+from rest_framework import generics, viewsets
 
 from .forms import SearchForm
-from .models import Vacancy
+from .models import Vacancy, City, Language
+from .serializers import VacancySerializer, LanguageSerializer , CitySerializer
 
 
 def home_view(request):
@@ -34,3 +36,18 @@ def list_view(request):
         'language': language or '',
     }
     return render(request, 'scraping/list.html', context)
+
+
+class VacancyViewSet(viewsets.ModelViewSet):
+    serializer_class = VacancySerializer
+    queryset = Vacancy.objects.all()
+
+
+class LanguageViewSet(viewsets.ModelViewSet):
+    serializer_class = LanguageSerializer
+    queryset = Language.objects.all()
+
+
+class CityViewSet(viewsets.ModelViewSet):
+    serializer_class = CitySerializer
+    queryset = City.objects.all()
