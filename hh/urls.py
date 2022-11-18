@@ -31,4 +31,5 @@ urlpatterns = [
     path('list/', list_view, name='list'),
     path('account/', include((account_urls, 'account'))),
     path('api/', include(router.urls)),
+    path('api/auth/', include('rest_framework.urls')),
 ]
