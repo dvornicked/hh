@@ -1,6 +1,7 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render
 from rest_framework import generics, viewsets
+from rest_framework.permissions import IsAdminUser
 
 from .forms import SearchForm
 from .models import Vacancy, City, Language
@@ -41,13 +42,16 @@ def list_view(request):
 class VacancyViewSet(viewsets.ModelViewSet):
     serializer_class = VacancySerializer
     queryset = Vacancy.objects.all()
+    permission_classes = [IsAdminUser]
 
 
 class LanguageViewSet(viewsets.ModelViewSet):
     serializer_class = LanguageSerializer
     queryset = Language.objects.all()
+    permission_classes = [IsAdminUser]
 
 
 class CityViewSet(viewsets.ModelViewSet):
     serializer_class = CitySerializer
     queryset = City.objects.all()
+    permission_classes = [IsAdminUser]
