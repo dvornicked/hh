@@ -14,6 +14,7 @@ beautifulsoup4 = "^4.11.1"
 asyncio = "^3.4.3"
 psycopg2 = "^2.9.5"
 djangorestframework = "^3.14.0"
+djoser = "^2.1.0"
 
 
 [build-system]
